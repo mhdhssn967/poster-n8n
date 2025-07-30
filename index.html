@@ -101,7 +101,7 @@
       outputDiv.innerHTML = "Generating poster...";
 
       try {
-        const response = await fetch("http://localhost:5678/webhook/generate-poster", {
+        const response = await fetch("https://n8n-poster-gen.onrender.com", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
