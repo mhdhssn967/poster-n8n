@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Poster Generator</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-top: 1rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 2rem;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #2f8f83;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #256f67;
+    }
+
+    .output {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .output img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .caption {
+      font-size: 1.1rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Poster Generator</h1>
+  <form id="posterForm">
+    <label>Company Name</label>
+    <input type="text" name="company_name" required value="Oqulix Private Limited"/>
+
+    <label>Logo URL</label>
+    <input type="text" name="logo_url" required value="https://www.oqulix.com/agency-hotspot/images/logo.png"/>
+
+    <label>Keywords</label>
+    <textarea name="keywords" rows="3" required>VR therapy, rehabilitation, physiotherapy, gamified recovery</textarea>
+
+    <button type="submit">Generate Poster</button>
+  </form>
+
+  <div class="output" id="output"></div>
+
+  <script>
+    const form = document.getElementById("posterForm");
+    const outputDiv = document.getElementById("output");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const body = {
+        company_name: formData.get("company_name"),
+        logo_url: formData.get("logo_url"),
+        keywords: formData.get("keywords")
+      };
+
+      outputDiv.innerHTML = "Generating poster...";
+
+      try {
+        const response = await fetch("http://localhost:5678/webhook/generate-poster", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body)
+        });
+
+        const result = await response.json();
+console.log(result);
+
+if (Array.isArray(result) && result.length > 0 && result[0].image && result[0].caption) {
+  const { image, caption } = result[0];
+  outputDiv.innerHTML = `
+    <img src="${image}" alt="Generated Poster" />
+    <div class="caption">${caption.replace(/\n/g, "<br>")}</div>
+  `;
+} else {
+  outputDiv.innerHTML = "Failed to generate poster. No image or caption received.";
+}
+
+      } catch (err) {
+        outputDiv.innerHTML = "An error occurred: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
