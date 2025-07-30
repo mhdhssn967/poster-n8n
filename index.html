@@ -68,7 +68,7 @@
   </style>
 </head>
 <body>
-  <h1>Poster Generator</h1>
+  <h1>Poster Generator v1.2</h1>
   <form id="posterForm">
     <label>Company Name</label>
     <input type="text" name="company_name" required value="Oqulix Private Limited"/>
@@ -101,7 +101,7 @@
       outputDiv.innerHTML = "Generating poster...";
 
       try {
-        const response = await fetch("https://n8n-poster-gen.onrender.com", {
+        const response = await fetch("http://localhost:5678/webhook/generate-poster", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
