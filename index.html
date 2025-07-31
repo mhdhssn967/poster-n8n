@@ -53,6 +53,9 @@
       margin-top: 3rem;
       text-align: center;
       display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 50px;
     }
 
     .output img {
@@ -64,15 +67,25 @@
     .caption {
       font-size: 1.1rem;
       color: #555;
+      max-width: 700px;
+      text-align: left;
+      border: solid 1px black;
+      padding: 20px;
+      border-radius: 15px;
     }
-    #posterForm{
+
+    #posterForm {
       max-width: 600px;
-      justify-self: center;
+      margin: auto;
     }
   </style>
+
+  <!-- ✅ Add marked.js for Markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <h1>Poster Generator v1.30</h1>
+  <h1>Poster Generator v1.40</h1>
+
   <form id="posterForm">
     <label>Company Name</label>
     <input type="text" name="company_name" required value="Oqulix Private Limited"/>
@@ -114,17 +127,17 @@
         });
 
         const result = await response.json();
-console.log(result);
+        console.log(result);
 
-if (Array.isArray(result) && result.length > 0 && result[0].image && result[0].caption) {
-  const { image, caption } = result[0];
-  outputDiv.innerHTML = `
-    <img width={400px} src="${image}" alt="Generated Poster" />
-    <div class="caption">${caption.replace(/\n/g, "<br>")}</div>
-  `;
-} else {
-  outputDiv.innerHTML = "Failed to generate poster. No image or caption received.";
-}
+        if (Array.isArray(result) && result.length > 0 && result[0].image && result[0].caption) {
+          const { image, caption } = result[0];
+          outputDiv.innerHTML = `
+            <img width="400px" src="${image}" alt="Generated Poster" />
+            <div class="caption">${marked.parse(caption)}</div>
+          `;
+        } else {
+          outputDiv.innerHTML = "Failed to generate poster. No image or caption received.";
+        }
 
       } catch (err) {
         outputDiv.innerHTML = "An error occurred: " + err.message;
