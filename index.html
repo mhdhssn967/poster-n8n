@@ -84,7 +84,7 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <h1>Poster Generator v1.50</h1>
+  <h1>Poster Generator v1.51</h1>
 
   <form id="posterForm">
     <label for="company">Company Name</label>
@@ -136,7 +136,7 @@
       outputDiv.innerHTML = "Generating poster...";
 
       try {
-        const response = await fetch("http://localhost:5678/webhook/generate-poster", {
+        const response = await fetch("https://n8n-service-5maz.onrender.com/webhook/generate-poster", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
