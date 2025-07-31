@@ -119,7 +119,7 @@ console.log(result);
 if (Array.isArray(result) && result.length > 0 && result[0].image && result[0].caption) {
   const { image, caption } = result[0];
   outputDiv.innerHTML = `
-    <img src="${image}" alt="Generated Poster" />
+    <img width={400px} src="${image}" alt="Generated Poster" />
     <div class="caption">${caption.replace(/\n/g, "<br>")}</div>
   `;
 } else {
