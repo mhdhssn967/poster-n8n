@@ -56,6 +56,7 @@
       align-items: center;
       justify-content: center;
       gap: 50px;
+      flex-wrap: wrap;
     }
 
     .output img {
@@ -80,21 +81,38 @@
     }
   </style>
 
-  <!-- ✅ Add marked.js for Markdown parsing -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <h1>Poster Generator v1.40</h1>
+  <h1>Poster Generator v1.50</h1>
 
   <form id="posterForm">
-    <label>Company Name</label>
-    <input type="text" name="company_name" required value="Oqulix Private Limited"/>
+    <label for="company">Company Name</label>
+    <input
+      type="text"
+      name="company_name"
+      id="company"
+      placeholder="Enter your company name"
+      required
+    />
 
-    <label>Logo URL</label>
-    <input type="text" name="logo_url" required value="https://www.oqulix.com/agency-hotspot/images/logo.png"/>
+    <label for="logo">Logo URL</label>
+    <input
+      type="url"
+      name="logo_url"
+      id="logo"
+      placeholder="Enter the image/logo URL"
+      required
+    />
 
-    <label>Keywords</label>
-    <textarea name="keywords" rows="3" required>VR therapy, rehabilitation, physiotherapy, gamified recovery</textarea>
+    <label for="keywords">Keywords</label>
+    <textarea
+      name="keywords"
+      id="keywords"
+      rows="3"
+      placeholder="Enter comma-separated keywords"
+      required
+    ></textarea>
 
     <button type="submit">Generate Poster</button>
   </form>
@@ -132,7 +150,7 @@
         if (Array.isArray(result) && result.length > 0 && result[0].image && result[0].caption) {
           const { image, caption } = result[0];
           outputDiv.innerHTML = `
-            <img width="400px" src="${image}" alt="Generated Poster" />
+            <img width="500px" src="${image}" alt="Generated Poster" />
             <div class="caption">${marked.parse(caption)}</div>
           `;
         } else {
